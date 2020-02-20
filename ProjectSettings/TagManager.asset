@@ -19,8 +19,8 @@ TagManager:
   - PostProcessing
   - Hittable
   - Ground
-  - Wheels
-  - Shield
+  - Vehicle
+  - Wheel
   - Team1HUD
   - Team2HUD
   - 
