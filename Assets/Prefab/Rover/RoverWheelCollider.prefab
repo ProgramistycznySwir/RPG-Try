@@ -41,12 +41,12 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.5
   m_SuspensionSpring:
-    spring: 45000
-    damper: 13500
+    spring: 60000
+    damper: 20000
     targetPosition: 0
-  m_SuspensionDistance: 0.5
+  m_SuspensionDistance: 0.25
   m_ForceAppPointDistance: 0
-  m_Mass: 0.5
+  m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4

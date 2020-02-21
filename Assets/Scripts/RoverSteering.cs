@@ -7,10 +7,16 @@ public class RoverSteering : MonoBehaviour
     public new Rigidbody rigidbody;
 
     public KeyCode handBreak = KeyCode.Space;
+    public KeyCode boost = KeyCode.LeftShift;
 
     public float maxSpeed;
     public float power;
     public float brakingForce;
+
+    public float boostPower;
+    public float boostFuel;
+    public float boostFuelTank;
+    public float boostFuelRegeneration;
 
     public float maxSteeringAngle;
     public float steeringSpeed;
@@ -23,6 +29,7 @@ public class RoverSteering : MonoBehaviour
 
 
     public TMPro.TextMeshPro speedText;
+    public TMPro.TextMeshPro boostText;
 
 
     float throttle;
@@ -32,7 +39,7 @@ public class RoverSteering : MonoBehaviour
 
     void Start()
     {
-        rigidbody.centerOfMass = new Vector3(0f, -1f, 0f);
+        boostFuel = boostFuelTank;
     }
 
     // Update is called once per frame
@@ -43,17 +50,21 @@ public class RoverSteering : MonoBehaviour
 
         if (Input.GetKey(handBreak))
         {
-            foreach (WheelCollider wheel in wheelsL)
-                wheel.brakeTorque = brakingForce;
-            foreach (WheelCollider wheel in wheelsR)
-                wheel.brakeTorque = brakingForce;
+            wheelsL[1].brakeTorque = brakingForce;
+            wheelsR[1].brakeTorque = brakingForce;
+            //foreach (WheelCollider wheel in wheelsL)
+            //    wheel.brakeTorque = brakingForce;
+            //foreach (WheelCollider wheel in wheelsR)
+            //    wheel.brakeTorque = brakingForce;
         }
         else
         {
-            foreach (WheelCollider wheel in wheelsL)
-                wheel.brakeTorque = 0f;
-            foreach (WheelCollider wheel in wheelsR)
-                wheel.brakeTorque = 0f;
+            wheelsL[1].brakeTorque = 0f;
+            wheelsR[1].brakeTorque = 0f;
+            //foreach (WheelCollider wheel in wheelsL)
+            //    wheel.brakeTorque = 0f;
+            //foreach (WheelCollider wheel in wheelsR)
+            //    wheel.brakeTorque = 0f;
         }
         
         if(rigidbody.velocity.sqrMagnitude < maxSpeed * maxSpeed)
@@ -66,10 +77,21 @@ public class RoverSteering : MonoBehaviour
         else
         {
             foreach (WheelCollider wheel in wheelsL)
-                wheel.motorTorque = 0;
+                wheel.motorTorque = 0f;
             foreach (WheelCollider wheel in wheelsR)
-                wheel.motorTorque = 0;
+                wheel.motorTorque = 0f;
         }
+
+        if(Input.GetKey(boost))
+        {
+            if(boostFuel > 0f)
+            {
+                rigidbody.AddRelativeForce(Vector3.forward * boostPower);
+                boostFuel = Mathf.MoveTowards(boostFuel, 0f, Time.fixedDeltaTime);
+            }
+        }
+        else
+            boostFuel = Mathf.MoveTowards(boostFuel, boostFuelTank, boostFuelRegeneration * Time.fixedDeltaTime);
 
         wheelsL[0].steerAngle = Mathf.MoveTowards(wheelsL[0].steerAngle, steering * maxSteeringAngle, steeringSpeed * Time.fixedDeltaTime);
         wheelsR[0].steerAngle = Mathf.MoveTowards(wheelsR[0].steerAngle, steering * maxSteeringAngle, steeringSpeed * Time.fixedDeltaTime);
@@ -77,8 +99,7 @@ public class RoverSteering : MonoBehaviour
         //wheelsR[2].steerAngle = Mathf.MoveTowards(wheelsR[2].steerAngle, -steering * maxSteeringAngle, steeringSpeed * Time.fixedDeltaTime);
 
         UpdateWheelPositions();
-
-        speedText.text = (rigidbody.velocity.magnitude * 3.6f).ToString("F0") + "km/h";
+        Display();
     }
 
     void UpdateWheelPositions()
@@ -93,5 +114,11 @@ public class RoverSteering : MonoBehaviour
             modelsR[i].position = wheelPosition;
             modelsR[i].rotation = wheelRotation;
         }
+    }
+
+    void Display()
+    {
+        speedText.text = (rigidbody.velocity.magnitude * 3.6f).ToString("F0") + "km/h";
+        boostText.text = ((boostFuel / boostFuelTank) * 100f).ToString("F0") + "%";
     }
 }
