@@ -6,42 +6,55 @@ public class MechControler : MonoBehaviour
 {
     public CharacterController movement;
     public HeadRotation head;
-    public float speed = 10f;
+    public float topSpeed = 40f;
+    public float acceleration = 40f;
+    public float deceleration = 100f;
     public float rotationSpeed = 360f;
     public float jumpPower = 40f;
     public bool test;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     Vector2 input;
-    Vector3 velocity;
-    Vector3 movementVelocity;
+    float velocityV;
+    Vector2 velocityH;
     void Update()
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
 
-        transform.eulerAngles = new Vector3(0f, Mathf.MoveTowardsAngle(transform.eulerAngles.y, head.CameraH, rotationSpeed * Time.deltaTime), 0f);
+        if (Input.GetKeyDown(KeyCode.Q))
+            test = !test;
+        if(!test)
+            transform.eulerAngles = new Vector3(0f, Mathf.MoveTowardsAngle(transform.eulerAngles.y, head.CameraH, rotationSpeed * Time.deltaTime), 0f);
 
         if (movement.isGrounded)
-        {            
-            velocity.y = -10f;
+        {
+            velocityV = -10f;
             if (Input.GetKeyDown(KeyCode.Space))
-                velocity.y = jumpPower;
+                velocityV = jumpPower;
 
-            Vector3 normalizedInput = Vector3.zero;
-            normalizedInput += new Vector3(Mathf.Sin(head.CameraH * Mathf.Deg2Rad), 0f, Mathf.Cos(head.CameraH * Mathf.Deg2Rad)) * input.y;
-            normalizedInput += new Vector3(Mathf.Cos(head.CameraH * Mathf.Deg2Rad), 0f, -Mathf.Sin(head.CameraH * Mathf.Deg2Rad)) * input.x;
+            Vector2 normalizedInput = Vector2.zero;
+            if(input.y != 0)
+                normalizedInput += new Vector2(Mathf.Sin(head.CameraH * Mathf.Deg2Rad), Mathf.Cos(head.CameraH * Mathf.Deg2Rad)) * input.y;
 
-            movementVelocity = normalizedInput.normalized * speed;
+            Debug.Log(Vector2.Dot(velocityH, input));
+            if(input.x != 0)
+            {
+                if (Vector2.Dot(velocityH, input) <= 0)
+                    normalizedInput += new Vector2(Mathf.Cos(head.CameraH * Mathf.Deg2Rad), -Mathf.Sin(head.CameraH * Mathf.Deg2Rad)) * input.x;
+                else
+                    normalizedInput += new Vector2(Mathf.Cos(head.CameraH * Mathf.Deg2Rad), -Mathf.Sin(head.CameraH * Mathf.Deg2Rad)) * input.x;
+            }
+            //else
+                //normalizedInput += new Vector2(Mathf.Cos(head.CameraH * Mathf.Deg2Rad), -Mathf.Sin(head.CameraH * Mathf.Deg2Rad)) * input.x;
+
+
+            velocityH += normalizedInput.normalized * acceleration * Time.deltaTime;
+            velocityH = Vector2.ClampMagnitude(velocityH, topSpeed);
         }
         else
-            velocity += Physics.gravity * Time.deltaTime;
+            velocityV += Physics.gravity.y * Time.deltaTime;
 
-        movement.Move((velocity + movementVelocity) * Time.deltaTime);
+        movement.Move(new Vector3(velocityH.x, velocityV, velocityH.y) * Time.deltaTime);
     }
 }

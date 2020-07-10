@@ -23,3 +23,18 @@ public struct Range
         return Mathf.Clamp(value, min, max);
     }
 }
+
+public class My
+{
+    public class Vector2
+    {
+        public static Vector2 ElipticNormalization(UnityEngine.Vector2 vector)
+        {
+            // 2 podejścia:
+            // 1. Stworzenie elipsy z 2 współrzędnych wektora i znalezienia punktu przecięcia się elipsy i wektora.
+            // 2. Znalezienie prostokąta o największym polu w obrębie elipsy (o jednym punkcie w [0,0]). (może być trudniejsze)
+
+            throw new System.NotImplementedException();
+        }
+    }
+}
