@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8764788519631538199}
   - component: {fileID: 8764788519631538196}
   - component: {fileID: 564208987749395343}
-  - component: {fileID: 8764788519631538194}
+  - component: {fileID: 8149361394965399836}
   m_Layer: 0
   m_Name: PelletMarching 20cm
   m_TagString: Untagged
@@ -117,7 +117,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 2.5
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.2
@@ -174,7 +174,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &8764788519631538194
+--- !u!114 &8149361394965399836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,9 +183,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8764788519631538195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fd4b98af050b748a01f526f2e78d84, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f953312e78e0ce4493e2a779c8911f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  decayDistance: 400
+  renderer: {fileID: 8764788519631538196}
   trail: {fileID: 564208987749395343}
-  mass: 15
-  reflectivity: 0.5
