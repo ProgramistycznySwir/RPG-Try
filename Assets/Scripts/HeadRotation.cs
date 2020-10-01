@@ -17,7 +17,7 @@ public class HeadRotation : MonoBehaviour
     public float CameraV { get { return cameraV; } }
     float cameraH;
     public float CameraH { get { return cameraH; } }
-    void Update()
+    void LateUpdate()
     {
         cameraV -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
         cameraV = Mathf.Clamp(cameraV, -90, 90);

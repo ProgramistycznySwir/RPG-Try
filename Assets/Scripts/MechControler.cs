@@ -6,7 +6,9 @@ public class MechControler : MonoBehaviour
 {
     public CharacterController movement;
     public HeadRotation head;
+
     public float topSpeed = 40f;
+    public float forwardAccelerationMultiplier = 1.5f;
     public float acceleration = 40f;
     public float deceleration = 100f;
     public float rotationSpeed = 360f;
@@ -17,6 +19,7 @@ public class MechControler : MonoBehaviour
     Vector2 input;
     float velocityV;
     Vector2 velocityH;
+    public Vector3 velocity { get { return new Vector3(velocityH.x, velocityV, velocityH.y); } }
     void Update()
     {
         input.x = Input.GetAxisRaw("Horizontal");
@@ -31,13 +34,16 @@ public class MechControler : MonoBehaviour
         {
             velocityV = -10f;
             if (Input.GetKeyDown(KeyCode.Space))
+            {
                 velocityV = jumpPower;
+                return;
+            }
 
             Vector2 normalizedInput = Vector2.zero;
             if(input.y != 0)
                 normalizedInput += new Vector2(Mathf.Sin(head.CameraH * Mathf.Deg2Rad), Mathf.Cos(head.CameraH * Mathf.Deg2Rad)) * input.y;
 
-            Debug.Log(Vector2.Dot(velocityH, input));
+            //Debug.Log(Vector2.Dot(velocityH, input));
             if(input.x != 0)
             {
                 if (Vector2.Dot(velocityH, input) <= 0)
@@ -56,5 +62,7 @@ public class MechControler : MonoBehaviour
             velocityV += Physics.gravity.y * Time.deltaTime;
 
         movement.Move(new Vector3(velocityH.x, velocityV, velocityH.y) * Time.deltaTime);
+
+        Debug.Log(head.CameraH);
     }
 }

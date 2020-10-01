@@ -10,7 +10,7 @@ Material:
   m_Name: RadioactiveVertex
   m_Shader: {fileID: 4800000, guid: c15eb4901ee3c8a4fb6b6cd807834d40, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 6
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1

@@ -5,10 +5,12 @@ using UnityEngine;
 public class CameraZoom : MonoBehaviour
 {
     public Camera camera;
+    public HeadRotation head;
     //public CameraRotation cameraRotation;
 
     private float cameraFoV;
     private Vector3 cameraPos;
+    private float cameraSensitivity;
 
     public float zoom = 1;
     [Tooltip("It has to be power of 2")]
@@ -24,6 +26,7 @@ public class CameraZoom : MonoBehaviour
     {
         cameraFoV = camera.fieldOfView;
         cameraPos = camera.transform.localPosition;
+        cameraSensitivity = head.sensitivity;
     }
 
     // Update is called once per frame
@@ -32,13 +35,15 @@ public class CameraZoom : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && zoom < maxZoom)
         {
             zoom *= 2;
-            //Zoom();
+            Zoom();
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom > minZoom)
         {
             zoom /= 2;
-            //Zoom();
+            Zoom();
         }
+
+
 
         //if (!zoomedIn)
         //{
@@ -51,22 +56,24 @@ public class CameraZoom : MonoBehaviour
         //}
     }
 
-    //void Zoom()
-    //{
-    //    if(zoom > 1)
-    //    {
-    //        camera.transform.localPosition = cameraPos;
-    //        camera.fieldOfView = cameraFoV / zoom;
-    //        cameraRotation.sensitivityFromZoom = 1f / zoom;
-    //        zoomedIn = true;
-    //    }
-    //    else
-    //    {
-    //        //cameraTargetPos = (cameraPos * 2) / zoom;
-    //        camera.transform.localPosition = (cameraPos * 2) / zoom;
-    //        camera.fieldOfView = cameraFoV;
-    //        cameraRotation.sensitivityFromZoom = 1f;
-    //        zoomedIn = false;
-    //    }
-    //}
+    void Zoom()
+    {
+        if (zoom > 1)
+        {
+            //camera.transform.localPosition = cameraPos;
+            camera.fieldOfView = cameraFoV / zoom;
+            head.sensitivity = cameraSensitivity / zoom;
+            //cameraRotation.sensitivityFromZoom = 1f / zoom;
+            zoomedIn = true;
+        }
+        else
+        {
+            //cameraTargetPos = (cameraPos * 2) / zoom;
+            //camera.transform.localPosition = (cameraPos * 2) / zoom;
+            camera.fieldOfView = cameraFoV;
+            head.sensitivity = cameraSensitivity / zoom;
+            //cameraRotation.sensitivityFromZoom = 1f;
+            zoomedIn = false;
+        }
+    }
 }
