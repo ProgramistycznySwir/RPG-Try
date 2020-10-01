@@ -9,71 +9,83 @@ public class CameraZoom : MonoBehaviour
     //public CameraRotation cameraRotation;
 
     private float cameraFoV;
-    private Vector3 cameraPos;
     private float cameraSensitivity;
 
-    public float zoom = 1;
-    [Tooltip("It has to be power of 2")]
-    public float minZoom = 0.5f;
-    [Tooltip("It has to be power of 2")]
-    public int maxZoom = 32;
+    public float zoomSensitivity = 5f;
+
+    float zoom = 1;
+    public float Zoom { get { return isZoomedIn ? zoom : 1; } }
+
+    public float maxZoom = 8;
 
     public Vector3 cameraTargetPos;
-    public bool zoomedIn = false;
+    bool isZoomedIn = false;
+    public bool IsZoomedIn { get { return isZoomedIn; } }
 
     // Start is called before the first frame update
     void Start()
     {
         cameraFoV = camera.fieldOfView;
-        cameraPos = camera.transform.localPosition;
         cameraSensitivity = head.sensitivity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && zoom < maxZoom)
+        if (!isZoomedIn && Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            zoom *= 2;
-            Zoom();
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom > minZoom)
-        {
-            zoom /= 2;
-            Zoom();
+            zoom = 1;
+            isZoomedIn = true;
         }
 
+        zoom = Mathf.Clamp(zoom + Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity, 1, maxZoom);
 
+        //if (zoom == 1)
+        //    isZoomedIn = false;
+        //else
+        //    isZoomedIn = true;
 
-        //if (!zoomedIn)
-        //{
-        //    RaycastHit raycast;
-        //    if (Physics.Linecast(transform.position, transform.position + cameraTargetPos, out raycast) && raycast.collider.tag != transform.tag)
-        //    {
-        //        camera.transform.localPosition = raycast.point;
-        //    }
-        //    else camera.transform.localPosition = cameraTargetPos;
-        //}
+        if (Input.GetMouseButtonDown(2))
+            isZoomedIn = !isZoomedIn;
+        ApplyZoom();
+        //OnMouseMiddleButton();
     }
 
-    void Zoom()
+    void ApplyZoom()
     {
-        if (zoom > 1)
+        if(isZoomedIn)
         {
-            //camera.transform.localPosition = cameraPos;
             camera.fieldOfView = cameraFoV / zoom;
             head.sensitivity = cameraSensitivity / zoom;
-            //cameraRotation.sensitivityFromZoom = 1f / zoom;
-            zoomedIn = true;
         }
         else
         {
-            //cameraTargetPos = (cameraPos * 2) / zoom;
-            //camera.transform.localPosition = (cameraPos * 2) / zoom;
             camera.fieldOfView = cameraFoV;
-            head.sensitivity = cameraSensitivity / zoom;
-            //cameraRotation.sensitivityFromZoom = 1f;
-            zoomedIn = false;
+            head.sensitivity = cameraSensitivity;
         }
+
+        //if (zoom > 1)
+        //{
+        //    //camera.transform.localPosition = cameraPos;
+        //    camera.fieldOfView = cameraFoV / zoom;
+        //    head.sensitivity = cameraSensitivity / zoom;
+        //    //cameraRotation.sensitivityFromZoom = 1f / zoom;
+        //    //zoomedIn = true;
+        //}
+        //else
+        //{
+        //    //cameraTargetPos = (cameraPos * 2) / zoom;
+        //    //camera.transform.localPosition = (cameraPos * 2) / zoom;
+        //    camera.fieldOfView = cameraFoV;
+        //    head.sensitivity = cameraSensitivity / zoom;
+        //    //cameraRotation.sensitivityFromZoom = 1f;
+        //    //zoomedIn = false;
+        //}
+    }
+
+    void OnMouseMiddleButton()
+    {
+        //if(isZoomedIn)
+
     }
 }

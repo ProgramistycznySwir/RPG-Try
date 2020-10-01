@@ -64,5 +64,7 @@ public class MechControler : MonoBehaviour
         movement.Move(new Vector3(velocityH.x, velocityV, velocityH.y) * Time.deltaTime);
 
         Debug.Log(head.CameraH);
+
+        Debug.Log($"{movement.velocity}\n{velocityH}");
     }
 }
