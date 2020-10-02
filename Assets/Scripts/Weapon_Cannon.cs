@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon_Cannon : MonoBehaviour
+public class Weapon_Cannon : Weapon
 {
     public Transform[] barrelEnds;
     int barrelEndIndex;
@@ -30,7 +30,7 @@ public class Weapon_Cannon : MonoBehaviour
             Fire();
     }
 
-    public void Fire()
+    public override void Fire()
     {
         while(cooldown <= 0)
         {

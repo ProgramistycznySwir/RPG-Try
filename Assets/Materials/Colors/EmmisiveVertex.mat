@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EmmisiveVertex
-  m_Shader: {fileID: 4800000, guid: c15eb4901ee3c8a4fb6b6cd807834d40, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c15eb4901ee3c8a4fb6b6cd807834d40,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0

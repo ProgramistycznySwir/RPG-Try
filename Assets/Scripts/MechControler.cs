@@ -30,6 +30,8 @@ public class MechControler : MonoBehaviour
         if(!test)
             transform.eulerAngles = new Vector3(0f, Mathf.MoveTowardsAngle(transform.eulerAngles.y, head.CameraH, rotationSpeed * Time.deltaTime), 0f);
 
+        velocityV = movement.velocity.y;
+
         if (movement.isGrounded)
         {
             velocityH.x = movement.velocity.x;

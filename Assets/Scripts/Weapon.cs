@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    float elevationSpeedMultiplier = 1f;
-    public float ElevationSpeedMultiplier { get { return elevationSpeedMultiplier; } }
+    public Aiming aiming;
+
+    public float elevationSpeedMultiplier_ = 1f;
+    float __elevationSpeedMultiplier = 1f;
+    public float elevationSpeedMultiplier { get { return elevationSpeedMultiplier; } }
 
     public virtual void Fire()
     { }
