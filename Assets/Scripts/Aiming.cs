@@ -9,6 +9,8 @@ public class Aiming : MonoBehaviour
     Range range;
     public float elevationSpeed = 120f;
 
+    public Weapon
+
     void Awake()
     {
         range = new Range(range_);

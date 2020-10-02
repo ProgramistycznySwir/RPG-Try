@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6973110946635171125}
   - component: {fileID: 6973110946635171124}
   - component: {fileID: 6973110946635171131}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: Cockpit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
