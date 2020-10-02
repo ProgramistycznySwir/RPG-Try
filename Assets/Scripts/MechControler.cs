@@ -19,7 +19,7 @@ public class MechControler : MonoBehaviour
     Vector2 input;
     float velocityV;
     Vector2 velocityH;
-    public Vector3 velocity { get { return new Vector3(velocityH.x, velocityV, velocityH.y); } }
+    public Vector3 CombinedVelocity { get { return new Vector3(velocityH.x, velocityV, velocityH.y); } }
     void Update()
     {
         input.x = Input.GetAxisRaw("Horizontal");
@@ -32,11 +32,13 @@ public class MechControler : MonoBehaviour
 
         if (movement.isGrounded)
         {
+            velocityH.x = movement.velocity.x;
+            velocityH.y = movement.velocity.z;
+
             velocityV = -10f;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 velocityV = jumpPower;
-                return;
             }
 
             Vector2 normalizedInput = Vector2.zero;
@@ -61,10 +63,6 @@ public class MechControler : MonoBehaviour
         else
             velocityV += Physics.gravity.y * Time.deltaTime;
 
-        movement.Move(new Vector3(velocityH.x, velocityV, velocityH.y) * Time.deltaTime);
-
-        Debug.Log(head.CameraH);
-
-        Debug.Log($"{movement.velocity}\n{velocityH}");
+        movement.Move(CombinedVelocity * Time.deltaTime);
     }
 }
